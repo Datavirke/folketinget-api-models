@@ -7,14 +7,15 @@ pub use default::*;
 // Any changes made to this file may be overwritten by future code generation runs!
 
 fn empty_string_as_none<'de, D, T>(de: D) -> Result<Option<T>, D::Error>
-where T: serde::Deserialize<'de>,
-      D: serde::Deserializer<'de>,
+where
+    T: serde::Deserialize<'de>,
+    D: serde::Deserializer<'de>,
 {
     let opt: Option<String> = serde::Deserialize::deserialize(de)?;
-    let opt = opt.as_ref().map(String::as_str);
+    let opt = opt.as_deref();
     match opt {
-    	None | Some("") => Ok(None),
-    	Some(s) => T::deserialize(serde::de::IntoDeserializer::into_deserializer(s)).map(Some),
+        None | Some("") => Ok(None),
+        Some(s) => T::deserialize(serde::de::IntoDeserializer::into_deserializer(s)).map(Some),
     }
 }
 
@@ -25,106 +26,902 @@ pub trait OpenDataModel {
 }
 
 pub enum OpenDataType {
-    Binary {
-        nullable: bool,
-    }
-    ,
-    Boolean {
-        nullable: bool,
-    }
-    ,
-    Byte {
-        nullable: bool,
-    }
-    ,
-    DateTime {
-        nullable: bool,
-    }
-    ,
-    DateTimeOffset {
-        nullable: bool,
-    }
-    ,
-    Decimal {
-        nullable: bool,
-    }
-    ,
-    Double {
-        nullable: bool,
-    }
-    ,
-    Int16 {
-        nullable: bool,
-    }
-    ,
-    Int32 {
-        nullable: bool,
-    }
-    ,
-    String {
-        nullable: bool,
-    }
-    ,
+    Binary { nullable: bool },
+    Boolean { nullable: bool },
+    Byte { nullable: bool },
+    DateTime { nullable: bool },
+    DateTimeOffset { nullable: bool },
+    Decimal { nullable: bool },
+    Double { nullable: bool },
+    Int16 { nullable: bool },
+    Int32 { nullable: bool },
+    String { nullable: bool },
 }
 
 pub mod ft {
     pub mod domain {
         pub mod models {
-            use serde::{Serialize, Deserialize};
             use crate::{OpenDataModel, OpenDataType};
+            use serde::{Deserialize, Serialize};
 
-            pub fn entity_types() -> &'static [(&'static str, &'static [(&'static str, crate::OpenDataType)])] {
+            pub fn entity_types(
+            ) -> &'static [(&'static str, &'static [(&'static str, crate::OpenDataType)])]
+            {
                 &[
-                	("Afstemning", &[("id", OpenDataType::Int32 { nullable: false }), ("nummer", OpenDataType::Int32 { nullable: false }), ("konklusion", OpenDataType::String { nullable: true }), ("vedtaget", OpenDataType::Boolean { nullable: false }), ("kommentar", OpenDataType::String { nullable: true }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Afstemningstype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Aktstykke", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("Aktør", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("gruppenavnkort", OpenDataType::String { nullable: true }), ("navn", OpenDataType::String { nullable: true }), ("fornavn", OpenDataType::String { nullable: true }), ("efternavn", OpenDataType::String { nullable: true }), ("biografi", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: true }), ("slutdato", OpenDataType::DateTime { nullable: true })]),
-                	("AktørAktør", &[("id", OpenDataType::Int32 { nullable: false }), ("fraaktørid", OpenDataType::Int32 { nullable: false }), ("tilaktørid", OpenDataType::Int32 { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: true }), ("slutdato", OpenDataType::DateTime { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]),
-                	("AktørAktørRolle", &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Aktørtype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Almdel", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("Dagsordenspunkt", &[("id", OpenDataType::Int32 { nullable: false }), ("kørebemærkning", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("kommentar", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("forhandlingskode", OpenDataType::String { nullable: true }), ("forhandling", OpenDataType::String { nullable: true }), ("superid", OpenDataType::Int32 { nullable: true }), ("sagstrinid", OpenDataType::Int32 { nullable: true }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]),
-                	("DagsordenspunktDokument", &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }), ("note", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("DagsordenspunktSag", &[("id", OpenDataType::Int32 { nullable: false }), ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Debat", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("Dokument", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: false }), ("statusid", OpenDataType::Int32 { nullable: false }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: false }), ("modtagelsesdato", OpenDataType::DateTime { nullable: true }), ("frigivelsesdato", OpenDataType::DateTime { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::String { nullable: true }), ("spørgsmålsordlyd", OpenDataType::String { nullable: true }), ("spørgsmålstitel", OpenDataType::String { nullable: true }), ("spørgsmålsid", OpenDataType::Int32 { nullable: true }), ("procedurenummer", OpenDataType::String { nullable: true }), ("grundnotatstatus", OpenDataType::String { nullable: true }), ("dagsordenudgavenummer", OpenDataType::Int16 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("DokumentAktør", &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]),
-                	("DokumentAktørRolle", &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Dokumentkategori", &[("id", OpenDataType::Int32 { nullable: false }), ("kategori", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Dokumenttype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Dokumentstatus", &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Emneord", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("emneord", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("EmneordDokument", &[("id", OpenDataType::Int32 { nullable: false }), ("emneordid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("EmneordSag", &[("id", OpenDataType::Int32 { nullable: false }), ("emneordid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Emneordstype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("EUsag", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("Forslag", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("Fil", &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("versionsdato", OpenDataType::DateTime { nullable: false }), ("filurl", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("variantkode", OpenDataType::String { nullable: true }), ("format", OpenDataType::String { nullable: true })]),
-                	("KolloneBeskrivelse", &[("id", OpenDataType::Int32 { nullable: false }), ("entitetnavn", OpenDataType::String { nullable: true }), ("kollonenavn", OpenDataType::String { nullable: true }), ("beskrivelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]),
-                	("EntitetBeskrivelse", &[("id", OpenDataType::Int32 { nullable: false }), ("entitetnavn", OpenDataType::String { nullable: true }), ("beskrivelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]),
-                	("Møde", &[("id", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("lokale", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("dagsordenurl", OpenDataType::String { nullable: true }), ("starttidsbemærkning", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: true }), ("typeid", OpenDataType::Int32 { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("MødeAktør", &[("id", OpenDataType::Int32 { nullable: false }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Mødestatus", &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Mødetype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Omtryk", &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("dato", OpenDataType::DateTime { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Periode", &[("id", OpenDataType::Int32 { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: false }), ("slutdato", OpenDataType::DateTime { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("kode", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sag", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]),
-                	("SagAktør", &[("id", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]),
-                	("SagAktørRolle", &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("SagDokument", &[("id", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("bilagsnummer", OpenDataType::String { nullable: true }), ("frigivelsesdato", OpenDataType::DateTime { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]),
-                	("SagDokumentRolle", &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagskategori", &[("id", OpenDataType::Int32 { nullable: false }), ("kategori", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagsstatus", &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagstrin", &[("id", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: true }), ("sagid", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("folketingstidendeurl", OpenDataType::String { nullable: true }), ("folketingstidende", OpenDataType::String { nullable: true }), ("folketingstidendesidenummer", OpenDataType::String { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("SagstrinAktør", &[("id", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]),
-                	("SagstrinAktørRolle", &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sambehandlinger", &[("id", OpenDataType::Int32 { nullable: false }), ("førstesagstrinid", OpenDataType::Int32 { nullable: false }), ("andetsagstrinid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("SagstrinDokument", &[("id", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagstrinsstatus", &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagstrinstype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Sagstype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Stemme", &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: true }), ("afstemningid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
-                	("Stemmetype", &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]),
+                    (
+                        "Afstemning",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("nummer", OpenDataType::Int32 { nullable: false }),
+                            ("konklusion", OpenDataType::String { nullable: true }),
+                            ("vedtaget", OpenDataType::Boolean { nullable: false }),
+                            ("kommentar", OpenDataType::String { nullable: true }),
+                            ("mødeid", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("sagstrinid", OpenDataType::Int32 { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Afstemningstype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Aktstykke",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Aktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("gruppenavnkort", OpenDataType::String { nullable: true }),
+                            ("navn", OpenDataType::String { nullable: true }),
+                            ("fornavn", OpenDataType::String { nullable: true }),
+                            ("efternavn", OpenDataType::String { nullable: true }),
+                            ("biografi", OpenDataType::String { nullable: true }),
+                            ("periodeid", OpenDataType::Int32 { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("startdato", OpenDataType::DateTime { nullable: true }),
+                            ("slutdato", OpenDataType::DateTime { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "AktørAktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("fraaktørid", OpenDataType::Int32 { nullable: false }),
+                            ("tilaktørid", OpenDataType::Int32 { nullable: false }),
+                            ("startdato", OpenDataType::DateTime { nullable: true }),
+                            ("slutdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("rolleid", OpenDataType::Int32 { nullable: false }),
+                        ],
+                    ),
+                    (
+                        "AktørAktørRolle",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("rolle", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Aktørtype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Almdel",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Dagsordenspunkt",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("kørebemærkning", OpenDataType::String { nullable: true }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("kommentar", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("forhandlingskode", OpenDataType::String { nullable: true }),
+                            ("forhandling", OpenDataType::String { nullable: true }),
+                            ("superid", OpenDataType::Int32 { nullable: true }),
+                            ("sagstrinid", OpenDataType::Int32 { nullable: true }),
+                            ("mødeid", OpenDataType::Int32 { nullable: false }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "DagsordenspunktDokument",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }),
+                            ("note", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "DagsordenspunktSag",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }),
+                            ("sagid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Debat",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Dokument",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: false }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("dato", OpenDataType::DateTime { nullable: false }),
+                            ("modtagelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("frigivelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::String { nullable: true }),
+                            ("spørgsmålsordlyd", OpenDataType::String { nullable: true }),
+                            ("spørgsmålstitel", OpenDataType::String { nullable: true }),
+                            ("spørgsmålsid", OpenDataType::Int32 { nullable: true }),
+                            ("procedurenummer", OpenDataType::String { nullable: true }),
+                            ("grundnotatstatus", OpenDataType::String { nullable: true }),
+                            (
+                                "dagsordenudgavenummer",
+                                OpenDataType::Int16 { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "DokumentAktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            ("aktørid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("rolleid", OpenDataType::Int32 { nullable: false }),
+                        ],
+                    ),
+                    (
+                        "DokumentAktørRolle",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("rolle", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Dokumentkategori",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("kategori", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Dokumenttype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Dokumentstatus",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("status", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Emneord",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("emneord", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "EmneordDokument",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("emneordid", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "EmneordSag",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("emneordid", OpenDataType::Int32 { nullable: false }),
+                            ("sagid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Emneordstype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "EUsag",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Forslag",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Fil",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("versionsdato", OpenDataType::DateTime { nullable: false }),
+                            ("filurl", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("variantkode", OpenDataType::String { nullable: true }),
+                            ("format", OpenDataType::String { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "KolloneBeskrivelse",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("entitetnavn", OpenDataType::String { nullable: true }),
+                            ("kollonenavn", OpenDataType::String { nullable: true }),
+                            ("beskrivelse", OpenDataType::String { nullable: true }),
+                            ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "EntitetBeskrivelse",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("entitetnavn", OpenDataType::String { nullable: true }),
+                            ("beskrivelse", OpenDataType::String { nullable: true }),
+                            ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "Møde",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("lokale", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("dagsordenurl", OpenDataType::String { nullable: true }),
+                            (
+                                "starttidsbemærkning",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("dato", OpenDataType::DateTime { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: true }),
+                            ("typeid", OpenDataType::Int32 { nullable: true }),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "MødeAktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("mødeid", OpenDataType::Int32 { nullable: false }),
+                            ("aktørid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Mødestatus",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("status", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Mødetype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Omtryk",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            ("dato", OpenDataType::DateTime { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Periode",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("startdato", OpenDataType::DateTime { nullable: false }),
+                            ("slutdato", OpenDataType::DateTime { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            ("kode", OpenDataType::String { nullable: true }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sag",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("titelkort", OpenDataType::String { nullable: true }),
+                            ("offentlighedskode", OpenDataType::String { nullable: true }),
+                            ("nummer", OpenDataType::String { nullable: true }),
+                            ("nummerprefix", OpenDataType::String { nullable: true }),
+                            ("nummernumerisk", OpenDataType::String { nullable: true }),
+                            ("nummerpostfix", OpenDataType::String { nullable: true }),
+                            ("resume", OpenDataType::String { nullable: true }),
+                            (
+                                "afstemningskonklusion",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("periodeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "afgørelsesresultatkode",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "baggrundsmateriale",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                            ("begrundelse", OpenDataType::String { nullable: true }),
+                            ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                            ("paragraf", OpenDataType::String { nullable: true }),
+                            ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                            ("afgørelse", OpenDataType::String { nullable: true }),
+                            ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                            ("lovnummer", OpenDataType::String { nullable: true }),
+                            ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "retsinformationsurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                            ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                        ],
+                    ),
+                    (
+                        "SagAktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("aktørid", OpenDataType::Int32 { nullable: false }),
+                            ("sagid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("rolleid", OpenDataType::Int32 { nullable: false }),
+                        ],
+                    ),
+                    (
+                        "SagAktørRolle",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("rolle", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "SagDokument",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("sagid", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            ("bilagsnummer", OpenDataType::String { nullable: true }),
+                            ("frigivelsesdato", OpenDataType::DateTime { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("rolleid", OpenDataType::Int32 { nullable: false }),
+                        ],
+                    ),
+                    (
+                        "SagDokumentRolle",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("rolle", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagskategori",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("kategori", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagsstatus",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("status", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagstrin",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("titel", OpenDataType::String { nullable: true }),
+                            ("dato", OpenDataType::DateTime { nullable: true }),
+                            ("sagid", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "folketingstidendeurl",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("folketingstidende", OpenDataType::String { nullable: true }),
+                            (
+                                "folketingstidendesidenummer",
+                                OpenDataType::String { nullable: true },
+                            ),
+                            ("statusid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "SagstrinAktør",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("sagstrinid", OpenDataType::Int32 { nullable: false }),
+                            ("aktørid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                            ("rolleid", OpenDataType::Int32 { nullable: false }),
+                        ],
+                    ),
+                    (
+                        "SagstrinAktørRolle",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("rolle", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sambehandlinger",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("førstesagstrinid", OpenDataType::Int32 { nullable: false }),
+                            ("andetsagstrinid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "SagstrinDokument",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("sagstrinid", OpenDataType::Int32 { nullable: false }),
+                            ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagstrinsstatus",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("status", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagstrinstype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Sagstype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Stemme",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("typeid", OpenDataType::Int32 { nullable: true }),
+                            ("afstemningid", OpenDataType::Int32 { nullable: false }),
+                            ("aktørid", OpenDataType::Int32 { nullable: false }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
+                    (
+                        "Stemmetype",
+                        &[
+                            ("id", OpenDataType::Int32 { nullable: false }),
+                            ("type", OpenDataType::String { nullable: true }),
+                            (
+                                "opdateringsdato",
+                                OpenDataType::DateTime { nullable: false },
+                            ),
+                        ],
+                    ),
                 ]
             }
 
@@ -149,7 +946,20 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("nummer", OpenDataType::Int32 { nullable: false }), ("konklusion", OpenDataType::String { nullable: true }), ("vedtaget", OpenDataType::Boolean { nullable: false }), ("kommentar", OpenDataType::String { nullable: true }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("nummer", OpenDataType::Int32 { nullable: false }),
+                        ("konklusion", OpenDataType::String { nullable: true }),
+                        ("vedtaget", OpenDataType::Boolean { nullable: false }),
+                        ("kommentar", OpenDataType::String { nullable: true }),
+                        ("mødeid", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("sagstrinid", OpenDataType::Int32 { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -167,7 +977,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -226,7 +1043,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -256,7 +1118,22 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("gruppenavnkort", OpenDataType::String { nullable: true }), ("navn", OpenDataType::String { nullable: true }), ("fornavn", OpenDataType::String { nullable: true }), ("efternavn", OpenDataType::String { nullable: true }), ("biografi", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: true }), ("slutdato", OpenDataType::DateTime { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("gruppenavnkort", OpenDataType::String { nullable: true }),
+                        ("navn", OpenDataType::String { nullable: true }),
+                        ("fornavn", OpenDataType::String { nullable: true }),
+                        ("efternavn", OpenDataType::String { nullable: true }),
+                        ("biografi", OpenDataType::String { nullable: true }),
+                        ("periodeid", OpenDataType::Int32 { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("startdato", OpenDataType::DateTime { nullable: true }),
+                        ("slutdato", OpenDataType::DateTime { nullable: true }),
+                    ]
                 }
             }
 
@@ -277,7 +1154,18 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("fraaktørid", OpenDataType::Int32 { nullable: false }), ("tilaktørid", OpenDataType::Int32 { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: true }), ("slutdato", OpenDataType::DateTime { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("fraaktørid", OpenDataType::Int32 { nullable: false }),
+                        ("tilaktørid", OpenDataType::Int32 { nullable: false }),
+                        ("startdato", OpenDataType::DateTime { nullable: true }),
+                        ("slutdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("rolleid", OpenDataType::Int32 { nullable: false }),
+                    ]
                 }
             }
 
@@ -295,7 +1183,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("rolle", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -313,7 +1208,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -372,7 +1274,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -405,7 +1352,20 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("kørebemærkning", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("kommentar", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("forhandlingskode", OpenDataType::String { nullable: true }), ("forhandling", OpenDataType::String { nullable: true }), ("superid", OpenDataType::Int32 { nullable: true }), ("sagstrinid", OpenDataType::Int32 { nullable: true }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("kørebemærkning", OpenDataType::String { nullable: true }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("kommentar", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("forhandlingskode", OpenDataType::String { nullable: true }),
+                        ("forhandling", OpenDataType::String { nullable: true }),
+                        ("superid", OpenDataType::Int32 { nullable: true }),
+                        ("sagstrinid", OpenDataType::Int32 { nullable: true }),
+                        ("mødeid", OpenDataType::Int32 { nullable: false }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                    ]
                 }
             }
 
@@ -425,7 +1385,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }), ("note", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }),
+                        ("note", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -443,7 +1412,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("dagsordenspunktid", OpenDataType::Int32 { nullable: false }),
+                        ("sagid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -502,7 +1479,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -542,7 +1564,32 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: false }), ("statusid", OpenDataType::Int32 { nullable: false }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: false }), ("modtagelsesdato", OpenDataType::DateTime { nullable: true }), ("frigivelsesdato", OpenDataType::DateTime { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::String { nullable: true }), ("spørgsmålsordlyd", OpenDataType::String { nullable: true }), ("spørgsmålstitel", OpenDataType::String { nullable: true }), ("spørgsmålsid", OpenDataType::Int32 { nullable: true }), ("procedurenummer", OpenDataType::String { nullable: true }), ("grundnotatstatus", OpenDataType::String { nullable: true }), ("dagsordenudgavenummer", OpenDataType::Int16 { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: false }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("dato", OpenDataType::DateTime { nullable: false }),
+                        ("modtagelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("frigivelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::String { nullable: true }),
+                        ("spørgsmålsordlyd", OpenDataType::String { nullable: true }),
+                        ("spørgsmålstitel", OpenDataType::String { nullable: true }),
+                        ("spørgsmålsid", OpenDataType::Int32 { nullable: true }),
+                        ("procedurenummer", OpenDataType::String { nullable: true }),
+                        ("grundnotatstatus", OpenDataType::String { nullable: true }),
+                        (
+                            "dagsordenudgavenummer",
+                            OpenDataType::Int16 { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -561,7 +1608,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        ("aktørid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("rolleid", OpenDataType::Int32 { nullable: false }),
+                    ]
                 }
             }
 
@@ -579,7 +1635,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("rolle", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -597,7 +1660,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("kategori", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("kategori", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -615,7 +1685,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -633,7 +1710,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("status", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -652,7 +1736,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("emneord", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("emneord", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -670,7 +1762,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("emneordid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("emneordid", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -688,7 +1788,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("emneordid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("emneordid", OpenDataType::Int32 { nullable: false }),
+                        ("sagid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -706,7 +1814,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -765,7 +1880,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -824,7 +1984,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -850,7 +2055,19 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("versionsdato", OpenDataType::DateTime { nullable: false }), ("filurl", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("variantkode", OpenDataType::String { nullable: true }), ("format", OpenDataType::String { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("versionsdato", OpenDataType::DateTime { nullable: false }),
+                        ("filurl", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("variantkode", OpenDataType::String { nullable: true }),
+                        ("format", OpenDataType::String { nullable: true }),
+                    ]
                 }
             }
 
@@ -872,7 +2089,13 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("entitetnavn", OpenDataType::String { nullable: true }), ("kollonenavn", OpenDataType::String { nullable: true }), ("beskrivelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("entitetnavn", OpenDataType::String { nullable: true }),
+                        ("kollonenavn", OpenDataType::String { nullable: true }),
+                        ("beskrivelse", OpenDataType::String { nullable: true }),
+                        ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                    ]
                 }
             }
 
@@ -892,7 +2115,12 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("entitetnavn", OpenDataType::String { nullable: true }), ("beskrivelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("entitetnavn", OpenDataType::String { nullable: true }),
+                        ("beskrivelse", OpenDataType::String { nullable: true }),
+                        ("opdateringsdato", OpenDataType::DateTime { nullable: true }),
+                    ]
                 }
             }
 
@@ -924,7 +2152,26 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("lokale", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("dagsordenurl", OpenDataType::String { nullable: true }), ("starttidsbemærkning", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: true }), ("typeid", OpenDataType::Int32 { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("lokale", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("dagsordenurl", OpenDataType::String { nullable: true }),
+                        (
+                            "starttidsbemærkning",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("dato", OpenDataType::DateTime { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: true }),
+                        ("typeid", OpenDataType::Int32 { nullable: true }),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -942,7 +2189,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("mødeid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("mødeid", OpenDataType::Int32 { nullable: false }),
+                        ("aktørid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -960,7 +2215,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("status", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -978,7 +2240,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -998,7 +2267,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("dato", OpenDataType::DateTime { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        ("dato", OpenDataType::DateTime { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1022,7 +2300,18 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("startdato", OpenDataType::DateTime { nullable: false }), ("slutdato", OpenDataType::DateTime { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("kode", OpenDataType::String { nullable: true }), ("titel", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("startdato", OpenDataType::DateTime { nullable: false }),
+                        ("slutdato", OpenDataType::DateTime { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        ("kode", OpenDataType::String { nullable: true }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1081,7 +2370,52 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("kategoriid", OpenDataType::Int32 { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("titelkort", OpenDataType::String { nullable: true }), ("offentlighedskode", OpenDataType::String { nullable: true }), ("nummer", OpenDataType::String { nullable: true }), ("nummerprefix", OpenDataType::String { nullable: true }), ("nummernumerisk", OpenDataType::String { nullable: true }), ("nummerpostfix", OpenDataType::String { nullable: true }), ("resume", OpenDataType::String { nullable: true }), ("afstemningskonklusion", OpenDataType::String { nullable: true }), ("periodeid", OpenDataType::Int32 { nullable: false }), ("afgørelsesresultatkode", OpenDataType::String { nullable: true }), ("baggrundsmateriale", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("statsbudgetsag", OpenDataType::Boolean { nullable: true }), ("begrundelse", OpenDataType::String { nullable: true }), ("paragrafnummer", OpenDataType::Int32 { nullable: true }), ("paragraf", OpenDataType::String { nullable: true }), ("afgørelsesdato", OpenDataType::DateTime { nullable: true }), ("afgørelse", OpenDataType::String { nullable: true }), ("rådsmødedato", OpenDataType::DateTime { nullable: true }), ("lovnummer", OpenDataType::String { nullable: true }), ("lovnummerdato", OpenDataType::DateTime { nullable: true }), ("retsinformationsurl", OpenDataType::String { nullable: true }), ("fremsatundersagid", OpenDataType::Int32 { nullable: true }), ("deltundersagid", OpenDataType::Int32 { nullable: true })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        ("kategoriid", OpenDataType::Int32 { nullable: true }),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("titelkort", OpenDataType::String { nullable: true }),
+                        ("offentlighedskode", OpenDataType::String { nullable: true }),
+                        ("nummer", OpenDataType::String { nullable: true }),
+                        ("nummerprefix", OpenDataType::String { nullable: true }),
+                        ("nummernumerisk", OpenDataType::String { nullable: true }),
+                        ("nummerpostfix", OpenDataType::String { nullable: true }),
+                        ("resume", OpenDataType::String { nullable: true }),
+                        (
+                            "afstemningskonklusion",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("periodeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "afgørelsesresultatkode",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "baggrundsmateriale",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("statsbudgetsag", OpenDataType::Boolean { nullable: true }),
+                        ("begrundelse", OpenDataType::String { nullable: true }),
+                        ("paragrafnummer", OpenDataType::Int32 { nullable: true }),
+                        ("paragraf", OpenDataType::String { nullable: true }),
+                        ("afgørelsesdato", OpenDataType::DateTime { nullable: true }),
+                        ("afgørelse", OpenDataType::String { nullable: true }),
+                        ("rådsmødedato", OpenDataType::DateTime { nullable: true }),
+                        ("lovnummer", OpenDataType::String { nullable: true }),
+                        ("lovnummerdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "retsinformationsurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("fremsatundersagid", OpenDataType::Int32 { nullable: true }),
+                        ("deltundersagid", OpenDataType::Int32 { nullable: true }),
+                    ]
                 }
             }
 
@@ -1100,7 +2434,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("aktørid", OpenDataType::Int32 { nullable: false }),
+                        ("sagid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("rolleid", OpenDataType::Int32 { nullable: false }),
+                    ]
                 }
             }
 
@@ -1118,7 +2461,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("rolle", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1140,7 +2490,18 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("sagid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("bilagsnummer", OpenDataType::String { nullable: true }), ("frigivelsesdato", OpenDataType::DateTime { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("sagid", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        ("bilagsnummer", OpenDataType::String { nullable: true }),
+                        ("frigivelsesdato", OpenDataType::DateTime { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("rolleid", OpenDataType::Int32 { nullable: false }),
+                    ]
                 }
             }
 
@@ -1158,7 +2519,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("rolle", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1176,7 +2544,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("kategori", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("kategori", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1194,7 +2569,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("status", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1222,7 +2604,27 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("titel", OpenDataType::String { nullable: true }), ("dato", OpenDataType::DateTime { nullable: true }), ("sagid", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: false }), ("folketingstidendeurl", OpenDataType::String { nullable: true }), ("folketingstidende", OpenDataType::String { nullable: true }), ("folketingstidendesidenummer", OpenDataType::String { nullable: true }), ("statusid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("titel", OpenDataType::String { nullable: true }),
+                        ("dato", OpenDataType::DateTime { nullable: true }),
+                        ("sagid", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "folketingstidendeurl",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("folketingstidende", OpenDataType::String { nullable: true }),
+                        (
+                            "folketingstidendesidenummer",
+                            OpenDataType::String { nullable: true },
+                        ),
+                        ("statusid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1241,7 +2643,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false }), ("rolleid", OpenDataType::Int32 { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("sagstrinid", OpenDataType::Int32 { nullable: false }),
+                        ("aktørid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                        ("rolleid", OpenDataType::Int32 { nullable: false }),
+                    ]
                 }
             }
 
@@ -1259,7 +2670,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("rolle", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("rolle", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1277,7 +2695,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("førstesagstrinid", OpenDataType::Int32 { nullable: false }), ("andetsagstrinid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("førstesagstrinid", OpenDataType::Int32 { nullable: false }),
+                        ("andetsagstrinid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1295,7 +2721,15 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("sagstrinid", OpenDataType::Int32 { nullable: false }), ("dokumentid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("sagstrinid", OpenDataType::Int32 { nullable: false }),
+                        ("dokumentid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1313,7 +2747,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("status", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("status", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1331,7 +2772,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1349,7 +2797,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1368,7 +2823,16 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("typeid", OpenDataType::Int32 { nullable: true }), ("afstemningid", OpenDataType::Int32 { nullable: false }), ("aktørid", OpenDataType::Int32 { nullable: false }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("typeid", OpenDataType::Int32 { nullable: true }),
+                        ("afstemningid", OpenDataType::Int32 { nullable: false }),
+                        ("aktørid", OpenDataType::Int32 { nullable: false }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
 
@@ -1386,7 +2850,14 @@ pub mod ft {
                 }
 
                 fn fields() -> &'static [(&'static str, OpenDataType)] {
-                    &[("id", OpenDataType::Int32 { nullable: false }), ("type", OpenDataType::String { nullable: true }), ("opdateringsdato", OpenDataType::DateTime { nullable: false })]
+                    &[
+                        ("id", OpenDataType::Int32 { nullable: false }),
+                        ("type", OpenDataType::String { nullable: true }),
+                        (
+                            "opdateringsdato",
+                            OpenDataType::DateTime { nullable: false },
+                        ),
+                    ]
                 }
             }
         }
@@ -1394,6 +2865,14 @@ pub mod ft {
 }
 
 pub mod default {
-    pub use crate::ft::domain::models::{Afstemning, Afstemningstype, Aktstykke, Aktør, AktørAktør, AktørAktørRolle, Aktørtype, Almdel, Dagsordenspunkt, DagsordenspunktDokument, DagsordenspunktSag, Debat, Dokument, DokumentAktør, DokumentAktørRolle, Dokumentkategori, Dokumenttype, Dokumentstatus, Emneord, EmneordDokument, EmneordSag, Emneordstype, EUsag, Forslag, Fil, KolloneBeskrivelse, EntitetBeskrivelse, Møde, MødeAktør, Mødestatus, Mødetype, Omtryk, Periode, Sag, SagAktør, SagAktørRolle, SagDokument, SagDokumentRolle, Sagskategori, Sagsstatus, Sagstrin, SagstrinAktør, SagstrinAktørRolle, Sambehandlinger, SagstrinDokument, Sagstrinsstatus, Sagstrinstype, Sagstype, Stemme, Stemmetype};
-
+    pub use crate::ft::domain::models::{
+        Afstemning, Afstemningstype, Aktstykke, Aktør, AktørAktør, AktørAktørRolle, Aktørtype,
+        Almdel, Dagsordenspunkt, DagsordenspunktDokument, DagsordenspunktSag, Debat, Dokument,
+        DokumentAktør, DokumentAktørRolle, Dokumentkategori, Dokumentstatus, Dokumenttype, EUsag,
+        Emneord, EmneordDokument, EmneordSag, Emneordstype, EntitetBeskrivelse, Fil, Forslag,
+        KolloneBeskrivelse, Møde, MødeAktør, Mødestatus, Mødetype, Omtryk, Periode, Sag, SagAktør,
+        SagAktørRolle, SagDokument, SagDokumentRolle, Sagskategori, Sagsstatus, Sagstrin,
+        SagstrinAktør, SagstrinAktørRolle, SagstrinDokument, Sagstrinsstatus, Sagstrinstype,
+        Sagstype, Sambehandlinger, Stemme, Stemmetype,
+    };
 }
