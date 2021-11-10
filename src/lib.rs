@@ -1,11 +1,10 @@
-#![feature(non_ascii_idents)]
-
 pub use default::*;
 
 // Code automatically generated using https://github.com/Datavirke/odata-rust-generator
 
 // Any changes made to this file may be overwritten by future code generation runs!
 
+#[cfg(feature = "serde")]
 fn empty_string_as_none<'de, D, T>(de: D) -> Result<Option<T>, D::Error>
 where
     T: serde::Deserialize<'de>,
@@ -19,12 +18,14 @@ where
     }
 }
 
+#[cfg(feature = "reflection")]
 pub trait OpenDataModel {
     fn name() -> &'static str;
 
     fn fields() -> &'static [(&'static str, OpenDataType)];
 }
 
+#[cfg(feature = "reflection")]
 pub enum OpenDataType {
     Binary { nullable: bool, key: bool },
     Boolean { nullable: bool, key: bool },
@@ -41,9 +42,7 @@ pub enum OpenDataType {
 pub mod ft {
     pub mod domain {
         pub mod models {
-            use crate::{OpenDataModel, OpenDataType};
-            use serde::{Deserialize, Serialize};
-
+            #[cfg(feature = "reflection")]
             pub fn entity_types(
             ) -> &'static [(&'static str, &'static [(&'static str, crate::OpenDataType)])]
             {
@@ -53,63 +52,63 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "konklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "vedtaget",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kommentar",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "mødeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -121,21 +120,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -147,203 +146,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -355,77 +354,77 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "gruppenavnkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "navn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fornavn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "efternavn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "biografi",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "startdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "slutdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
@@ -437,49 +436,49 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "fraaktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "tilaktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "startdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "slutdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "rolleid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
@@ -491,21 +490,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "rolle",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -517,21 +516,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -543,203 +542,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -751,84 +750,84 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "kørebemærkning",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "kommentar",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "forhandlingskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "forhandling",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "superid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "mødeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
@@ -840,35 +839,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "dagsordenspunktid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "note",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -880,28 +879,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "dagsordenspunktid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -913,203 +912,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -1121,126 +1120,126 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "dato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "modtagelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "frigivelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "spørgsmålsordlyd",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "spørgsmålstitel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "spørgsmålsid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "procedurenummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "grundnotatstatus",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "dagsordenudgavenummer",
-                                OpenDataType::Int16 {
+                                crate::OpenDataType::Int16 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1252,35 +1251,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "aktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "rolleid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1292,21 +1291,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "rolle",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1318,21 +1317,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "kategori",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1344,21 +1343,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1370,21 +1369,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "status",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1396,28 +1395,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "emneord",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1429,28 +1428,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "emneordid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1462,28 +1461,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "emneordid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1495,21 +1494,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -1521,203 +1520,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -1729,203 +1728,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -1937,56 +1936,56 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "versionsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "filurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "variantkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "format",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
@@ -1998,35 +1997,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "entitetnavn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "kollonenavn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "beskrivelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
@@ -2038,28 +2037,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "entitetnavn",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "beskrivelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
@@ -2071,84 +2070,84 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lokale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "dagsordenurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "starttidsbemærkning",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "dato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2160,28 +2159,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "mødeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "aktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2193,21 +2192,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "status",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2219,21 +2218,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2245,35 +2244,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "dato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2285,49 +2284,49 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "startdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "slutdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "kode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2339,203 +2338,203 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "kategoriid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "titelkort",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "offentlighedskode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerprefix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummernumerisk",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "nummerpostfix",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "resume",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningskonklusion",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "periodeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesresultatkode",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "baggrundsmateriale",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "statsbudgetsag",
-                                OpenDataType::Boolean {
+                                crate::OpenDataType::Boolean {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "begrundelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragrafnummer",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "paragraf",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afgørelse",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "rådsmødedato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "lovnummerdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "retsinformationsurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "fremsatundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "deltundersagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
@@ -2547,35 +2546,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "aktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "rolleid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2587,21 +2586,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "rolle",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2613,49 +2612,49 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "sagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "bilagsnummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "frigivelsesdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "rolleid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2667,21 +2666,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "rolle",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2693,21 +2692,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "kategori",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2719,21 +2718,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "status",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2745,70 +2744,70 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "titel",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "dato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "sagid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "folketingstidendeurl",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "folketingstidende",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "folketingstidendesidenummer",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "statusid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2820,35 +2819,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "sagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "aktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "rolleid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2860,21 +2859,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "rolle",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2886,28 +2885,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "førstesagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "andetsagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2919,28 +2918,28 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "sagstrinid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "dokumentid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2952,21 +2951,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "status",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -2978,21 +2977,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -3004,21 +3003,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -3030,35 +3029,35 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "typeid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "afstemningid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "aktørid",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -3070,21 +3069,21 @@ pub mod ft {
                         &[
                             (
                                 "id",
-                                OpenDataType::Int32 {
+                                crate::OpenDataType::Int32 {
                                     nullable: false,
                                     key: true,
                                 },
                             ),
                             (
                                 "type",
-                                OpenDataType::String {
+                                crate::OpenDataType::String {
                                     nullable: true,
                                     key: false,
                                 },
                             ),
                             (
                                 "opdateringsdato",
-                                OpenDataType::DateTime {
+                                crate::OpenDataType::DateTime {
                                     nullable: false,
                                     key: false,
                                 },
@@ -3094,14 +3093,20 @@ pub mod ft {
                 ]
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Afstemning {
                 pub id: i32,
                 pub nummer: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub konklusion: Option<String>,
                 pub vedtaget: bool,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kommentar: Option<String>,
                 pub mødeid: i32,
                 pub typeid: i32,
@@ -3109,72 +3114,73 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Afstemning {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Afstemning {
                 fn name() -> &'static str {
                     "Afstemning"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "konklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "vedtaget",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kommentar",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "mødeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "sagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -3183,38 +3189,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Afstemningstype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Afstemningstype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Afstemningstype {
                 fn name() -> &'static str {
                     "Afstemningstype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -3223,261 +3233,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktstykke {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for Aktstykke {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Aktstykke {
                 fn name() -> &'static str {
                     "Aktstykke"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -3486,19 +3545,34 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktør {
                 pub id: i32,
                 pub typeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub gruppenavnkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub navn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub fornavn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub efternavn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub biografi: Option<String>,
                 pub periodeid: Option<i32>,
                 pub opdateringsdato: chrono::NaiveDateTime,
@@ -3506,86 +3580,87 @@ pub mod ft {
                 pub slutdato: Option<chrono::NaiveDateTime>,
             }
 
-            impl OpenDataModel for Aktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Aktør {
                 fn name() -> &'static str {
                     "Aktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "gruppenavnkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "navn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fornavn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "efternavn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "biografi",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "startdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "slutdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
@@ -3594,7 +3669,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct AktørAktør {
                 pub id: i32,
                 pub fraaktørid: i32,
@@ -3605,58 +3680,59 @@ pub mod ft {
                 pub rolleid: i32,
             }
 
-            impl OpenDataModel for AktørAktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for AktørAktør {
                 fn name() -> &'static str {
                     "AktørAktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "fraaktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "tilaktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "startdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "slutdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "rolleid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
@@ -3665,38 +3741,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct AktørAktørRolle {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for AktørAktørRolle {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for AktørAktørRolle {
                 fn name() -> &'static str {
                     "AktørAktørRolle"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "rolle",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -3705,38 +3785,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktørtype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Aktørtype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Aktørtype {
                 fn name() -> &'static str {
                     "Aktørtype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -3745,261 +3829,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Almdel {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for Almdel {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Almdel {
                 fn name() -> &'static str {
                     "Almdel"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -4008,116 +4141,138 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dagsordenspunkt {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kørebemærkning: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kommentar: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub forhandlingskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub forhandling: Option<String>,
                 pub superid: Option<i32>,
                 pub sagstrinid: Option<i32>,
                 pub mødeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
                 pub opdateringsdato: Option<chrono::NaiveDateTime>,
             }
 
-            impl OpenDataModel for Dagsordenspunkt {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Dagsordenspunkt {
                 fn name() -> &'static str {
                     "Dagsordenspunkt"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "kørebemærkning",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "kommentar",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "forhandlingskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "forhandling",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "superid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "sagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "mødeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
@@ -4126,54 +4281,58 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DagsordenspunktDokument {
                 pub id: i32,
                 pub dokumentid: i32,
                 pub dagsordenspunktid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub note: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for DagsordenspunktDokument {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for DagsordenspunktDokument {
                 fn name() -> &'static str {
                     "DagsordenspunktDokument"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "dagsordenspunktid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "note",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4182,7 +4341,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DagsordenspunktSag {
                 pub id: i32,
                 pub dagsordenspunktid: i32,
@@ -4190,37 +4349,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for DagsordenspunktSag {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for DagsordenspunktSag {
                 fn name() -> &'static str {
                     "DagsordenspunktSag"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "dagsordenspunktid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "sagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4229,261 +4389,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Debat {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for Debat {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Debat {
                 fn name() -> &'static str {
                     "Debat"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -4492,165 +4701,190 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokument {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: i32,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
                 pub dato: chrono::NaiveDateTime,
                 pub modtagelsesdato: Option<chrono::NaiveDateTime>,
                 pub frigivelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragrafnummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub spørgsmålsordlyd: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub spørgsmålstitel: Option<String>,
                 pub spørgsmålsid: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub procedurenummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub grundnotatstatus: Option<String>,
                 pub dagsordenudgavenummer: Option<i16>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Dokument {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Dokument {
                 fn name() -> &'static str {
                     "Dokument"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "dato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "modtagelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "frigivelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "spørgsmålsordlyd",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "spørgsmålstitel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "spørgsmålsid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "procedurenummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "grundnotatstatus",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "dagsordenudgavenummer",
-                            OpenDataType::Int16 {
+                            crate::OpenDataType::Int16 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4659,7 +4893,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DokumentAktør {
                 pub id: i32,
                 pub dokumentid: i32,
@@ -4668,44 +4902,45 @@ pub mod ft {
                 pub rolleid: i32,
             }
 
-            impl OpenDataModel for DokumentAktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for DokumentAktør {
                 fn name() -> &'static str {
                     "DokumentAktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "aktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "rolleid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
@@ -4714,38 +4949,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DokumentAktørRolle {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for DokumentAktørRolle {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for DokumentAktørRolle {
                 fn name() -> &'static str {
                     "DokumentAktørRolle"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "rolle",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4754,38 +4993,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumentkategori {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kategori: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Dokumentkategori {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Dokumentkategori {
                 fn name() -> &'static str {
                     "Dokumentkategori"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "kategori",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4794,38 +5037,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumenttype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Dokumenttype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Dokumenttype {
                 fn name() -> &'static str {
                     "Dokumenttype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4834,38 +5081,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumentstatus {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Dokumentstatus {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Dokumentstatus {
                 fn name() -> &'static str {
                     "Dokumentstatus"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "status",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4874,46 +5125,50 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Emneord {
                 pub id: i32,
                 pub typeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub emneord: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Emneord {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Emneord {
                 fn name() -> &'static str {
                     "Emneord"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "emneord",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4922,7 +5177,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EmneordDokument {
                 pub id: i32,
                 pub emneordid: i32,
@@ -4930,37 +5185,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for EmneordDokument {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for EmneordDokument {
                 fn name() -> &'static str {
                     "EmneordDokument"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "emneordid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -4969,7 +5225,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EmneordSag {
                 pub id: i32,
                 pub emneordid: i32,
@@ -4977,37 +5233,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for EmneordSag {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for EmneordSag {
                 fn name() -> &'static str {
                     "EmneordSag"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "emneordid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "sagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -5016,38 +5273,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Emneordstype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Emneordstype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Emneordstype {
                 fn name() -> &'static str {
                     "Emneordstype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -5056,261 +5317,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EUsag {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for EUsag {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for EUsag {
                 fn name() -> &'static str {
                     "EUsag"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -5319,261 +5629,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Forslag {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for Forslag {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Forslag {
                 fn name() -> &'static str {
                     "Forslag"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -5582,81 +5941,94 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Fil {
                 pub id: i32,
                 pub dokumentid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
                 pub versionsdato: chrono::NaiveDateTime,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub filurl: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub variantkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub format: Option<String>,
             }
 
-            impl OpenDataModel for Fil {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Fil {
                 fn name() -> &'static str {
                     "Fil"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "versionsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "filurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "variantkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "format",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
@@ -5665,56 +6037,66 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct KolloneBeskrivelse {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub entitetnavn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kollonenavn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub beskrivelse: Option<String>,
                 pub opdateringsdato: Option<chrono::NaiveDateTime>,
             }
 
-            impl OpenDataModel for KolloneBeskrivelse {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for KolloneBeskrivelse {
                 fn name() -> &'static str {
                     "KolloneBeskrivelse"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "entitetnavn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "kollonenavn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "beskrivelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
@@ -5723,47 +6105,54 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EntitetBeskrivelse {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub entitetnavn: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub beskrivelse: Option<String>,
                 pub opdateringsdato: Option<chrono::NaiveDateTime>,
             }
 
-            impl OpenDataModel for EntitetBeskrivelse {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for EntitetBeskrivelse {
                 fn name() -> &'static str {
                     "EntitetBeskrivelse"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "entitetnavn",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "beskrivelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
@@ -5772,20 +6161,38 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Møde {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lokale: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub dagsordenurl: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub starttidsbemærkning: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
                 pub dato: Option<chrono::NaiveDateTime>,
                 pub statusid: Option<i32>,
@@ -5794,93 +6201,94 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Møde {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Møde {
                 fn name() -> &'static str {
                     "Møde"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lokale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "dagsordenurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "starttidsbemærkning",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "dato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -5889,7 +6297,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct MødeAktør {
                 pub id: i32,
                 pub mødeid: i32,
@@ -5897,37 +6305,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for MødeAktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for MødeAktør {
                 fn name() -> &'static str {
                     "MødeAktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "mødeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "aktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -5936,38 +6345,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Mødestatus {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Mødestatus {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Mødestatus {
                 fn name() -> &'static str {
                     "Mødestatus"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "status",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -5976,38 +6389,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Mødetype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Mødetype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Mødetype {
                 fn name() -> &'static str {
                     "Mødetype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6016,54 +6433,58 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Omtryk {
                 pub id: i32,
                 pub dokumentid: i32,
                 pub dato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Omtryk {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Omtryk {
                 fn name() -> &'static str {
                     "Omtryk"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "dato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6072,72 +6493,82 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Periode {
                 pub id: i32,
                 pub startdato: chrono::NaiveDateTime,
                 pub slutdato: chrono::NaiveDateTime,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Periode {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Periode {
                 fn name() -> &'static str {
                     "Periode"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "startdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "slutdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "kode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6146,261 +6577,310 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sag {
                 pub id: i32,
                 pub typeid: i32,
                 pub kategoriid: Option<i32>,
                 pub statusid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titelkort: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub offentlighedskode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummer: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerprefix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummernumerisk: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub nummerpostfix: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub resume: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afstemningskonklusion: Option<String>,
                 pub periodeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelsesresultatkode: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub baggrundsmateriale: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub statsbudgetsag: Option<bool>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub begrundelse: Option<String>,
                 pub paragrafnummer: Option<i32>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub paragraf: Option<String>,
                 pub afgørelsesdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub afgørelse: Option<String>,
                 pub rådsmødedato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub lovnummer: Option<String>,
                 pub lovnummerdato: Option<chrono::NaiveDateTime>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
             }
 
-            impl OpenDataModel for Sag {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sag {
                 fn name() -> &'static str {
                     "Sag"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "kategoriid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "titelkort",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "offentlighedskode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerprefix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummernumerisk",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "nummerpostfix",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "resume",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningskonklusion",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "periodeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesresultatkode",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "baggrundsmateriale",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "statsbudgetsag",
-                            OpenDataType::Boolean {
+                            crate::OpenDataType::Boolean {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "begrundelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragrafnummer",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "paragraf",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afgørelse",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "rådsmødedato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "lovnummerdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "retsinformationsurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "fremsatundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "deltundersagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
@@ -6409,7 +6889,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagAktør {
                 pub id: i32,
                 pub aktørid: i32,
@@ -6418,44 +6898,45 @@ pub mod ft {
                 pub rolleid: i32,
             }
 
-            impl OpenDataModel for SagAktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagAktør {
                 fn name() -> &'static str {
                     "SagAktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "aktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "sagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "rolleid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
@@ -6464,38 +6945,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagAktørRolle {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for SagAktørRolle {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagAktørRolle {
                 fn name() -> &'static str {
                     "SagAktørRolle"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "rolle",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6504,70 +6989,74 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagDokument {
                 pub id: i32,
                 pub sagid: i32,
                 pub dokumentid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub bilagsnummer: Option<String>,
                 pub frigivelsesdato: Option<chrono::NaiveDateTime>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
             }
 
-            impl OpenDataModel for SagDokument {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagDokument {
                 fn name() -> &'static str {
                     "SagDokument"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "sagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "bilagsnummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "frigivelsesdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "rolleid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
@@ -6576,38 +7065,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagDokumentRolle {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for SagDokumentRolle {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagDokumentRolle {
                 fn name() -> &'static str {
                     "SagDokumentRolle"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "rolle",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6616,38 +7109,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagskategori {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub kategori: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagskategori {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagskategori {
                 fn name() -> &'static str {
                     "Sagskategori"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "kategori",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6656,38 +7153,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagsstatus {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagsstatus {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagsstatus {
                 fn name() -> &'static str {
                     "Sagsstatus"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "status",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6696,97 +7197,110 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrin {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub titel: Option<String>,
                 pub dato: Option<chrono::NaiveDateTime>,
                 pub sagid: i32,
                 pub typeid: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub folketingstidendeurl: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub folketingstidende: Option<String>,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub folketingstidendesidenummer: Option<String>,
                 pub statusid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagstrin {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagstrin {
                 fn name() -> &'static str {
                     "Sagstrin"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "titel",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "dato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "sagid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "folketingstidendeurl",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "folketingstidende",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "folketingstidendesidenummer",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "statusid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6795,7 +7309,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinAktør {
                 pub id: i32,
                 pub sagstrinid: i32,
@@ -6804,44 +7318,45 @@ pub mod ft {
                 pub rolleid: i32,
             }
 
-            impl OpenDataModel for SagstrinAktør {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagstrinAktør {
                 fn name() -> &'static str {
                     "SagstrinAktør"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "sagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "aktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "rolleid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
@@ -6850,38 +7365,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinAktørRolle {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for SagstrinAktørRolle {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagstrinAktørRolle {
                 fn name() -> &'static str {
                     "SagstrinAktørRolle"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "rolle",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6890,7 +7409,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sambehandlinger {
                 pub id: i32,
                 pub førstesagstrinid: i32,
@@ -6898,37 +7417,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sambehandlinger {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sambehandlinger {
                 fn name() -> &'static str {
                     "Sambehandlinger"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "førstesagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "andetsagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6937,7 +7457,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinDokument {
                 pub id: i32,
                 pub sagstrinid: i32,
@@ -6945,37 +7465,38 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for SagstrinDokument {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for SagstrinDokument {
                 fn name() -> &'static str {
                     "SagstrinDokument"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "sagstrinid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "dokumentid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -6984,38 +7505,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrinsstatus {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagstrinsstatus {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagstrinsstatus {
                 fn name() -> &'static str {
                     "Sagstrinsstatus"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "status",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -7024,38 +7549,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrinstype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagstrinstype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagstrinstype {
                 fn name() -> &'static str {
                     "Sagstrinstype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -7064,38 +7593,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Sagstype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Sagstype {
                 fn name() -> &'static str {
                     "Sagstype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -7104,7 +7637,7 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Stemme {
                 pub id: i32,
                 pub typeid: Option<i32>,
@@ -7113,44 +7646,45 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Stemme {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Stemme {
                 fn name() -> &'static str {
                     "Stemme"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "typeid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "afstemningid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "aktørid",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
@@ -7159,38 +7693,42 @@ pub mod ft {
                 }
             }
 
-            #[derive(Serialize, Deserialize)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Stemmetype {
                 pub id: i32,
-                #[serde(deserialize_with = "crate::empty_string_as_none")]
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(deserialize_with = "crate::empty_string_as_none")
+                )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
             }
 
-            impl OpenDataModel for Stemmetype {
+            #[cfg(feature = "reflection")]
+            impl crate::OpenDataModel for Stemmetype {
                 fn name() -> &'static str {
                     "Stemmetype"
                 }
 
-                fn fields() -> &'static [(&'static str, OpenDataType)] {
+                fn fields() -> &'static [(&'static str, crate::OpenDataType)] {
                     &[
                         (
                             "id",
-                            OpenDataType::Int32 {
+                            crate::OpenDataType::Int32 {
                                 nullable: false,
                                 key: true,
                             },
                         ),
                         (
                             "type",
-                            OpenDataType::String {
+                            crate::OpenDataType::String {
                                 nullable: true,
                                 key: false,
                             },
                         ),
                         (
                             "opdateringsdato",
-                            OpenDataType::DateTime {
+                            crate::OpenDataType::DateTime {
                                 nullable: false,
                                 key: false,
                             },
