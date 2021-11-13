@@ -1,7 +1,6 @@
 pub use default::*;
 
 // Code automatically generated using https://github.com/Datavirke/odata-rust-generator
-
 // Any changes made to this file may be overwritten by future code generation runs!
 
 #[cfg(feature = "serde")]
@@ -23,6 +22,8 @@ pub trait OpenDataModel {
     fn name() -> &'static str;
 
     fn fields() -> &'static [(&'static str, OpenDataType)];
+
+    fn relations() -> &'static [(&'static str, &'static str)];
 }
 
 #[cfg(feature = "reflection")]
@@ -3093,6 +3094,7 @@ pub mod ft {
                 ]
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Afstemning {
                 pub id: i32,
@@ -3112,6 +3114,14 @@ pub mod ft {
                 pub typeid: i32,
                 pub sagstrinid: Option<i32>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Stemme", default))]
+                pub stemme: Vec<Stemme>,
+                #[cfg_attr(feature = "serde", serde(rename = "Afstemningstype", default))]
+                pub afstemningstype: Option<Box<Afstemningstype>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3187,8 +3197,18 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Stemme", "Stemme"),
+                        ("Afstemningstype", "Afstemningstype"),
+                        ("Møde", "Møde"),
+                        ("Sagstrin", "Sagstrin"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Afstemningstype {
                 pub id: i32,
@@ -3198,6 +3218,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Afstemning", default))]
+                pub afstemning: Vec<Afstemning>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3231,8 +3253,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Afstemning", "Afstemning")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktstykke {
                 pub id: i32,
@@ -3543,8 +3570,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktør {
                 pub id: i32,
@@ -3578,6 +3610,24 @@ pub mod ft {
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub startdato: Option<chrono::NaiveDateTime>,
                 pub slutdato: Option<chrono::NaiveDateTime>,
+                #[cfg_attr(feature = "serde", serde(rename = "FraAktørAktør", default))]
+                pub fraaktøraktør: Vec<AktørAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "TilAktørAktør", default))]
+                pub tilaktøraktør: Vec<AktørAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "DokumentAktør", default))]
+                pub dokumentaktør: Vec<DokumentAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "MødeAktør", default))]
+                pub mødeaktør: Vec<MødeAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagAktør", default))]
+                pub sagaktør: Vec<SagAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinAktør", default))]
+                pub sagstrinaktør: Vec<SagstrinAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Stemme", default))]
+                pub stemme: Vec<Stemme>,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktørtype", default))]
+                pub aktørtype: Option<Box<Aktørtype>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Periode", default))]
+                pub periode: Option<Box<Periode>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3667,8 +3717,23 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("FraAktørAktør", "AktørAktør"),
+                        ("TilAktørAktør", "AktørAktør"),
+                        ("DokumentAktør", "DokumentAktør"),
+                        ("MødeAktør", "MødeAktør"),
+                        ("SagAktør", "SagAktør"),
+                        ("SagstrinAktør", "SagstrinAktør"),
+                        ("Stemme", "Stemme"),
+                        ("Aktørtype", "Aktørtype"),
+                        ("Periode", "Periode"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct AktørAktør {
                 pub id: i32,
@@ -3678,6 +3743,12 @@ pub mod ft {
                 pub slutdato: Option<chrono::NaiveDateTime>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
+                #[cfg_attr(feature = "serde", serde(rename = "FraAktør", default))]
+                pub fraaktør: Option<Box<Aktør>>,
+                #[cfg_attr(feature = "serde", serde(rename = "TilAktør", default))]
+                pub tilaktør: Option<Box<Aktør>>,
+                #[cfg_attr(feature = "serde", serde(rename = "AktørAktørRolle", default))]
+                pub aktøraktørrolle: Option<Box<AktørAktørRolle>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3739,8 +3810,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("FraAktør", "Aktør"),
+                        ("TilAktør", "Aktør"),
+                        ("AktørAktørRolle", "AktørAktørRolle"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct AktørAktørRolle {
                 pub id: i32,
@@ -3750,6 +3830,8 @@ pub mod ft {
                 )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "AktørAktør", default))]
+                pub aktøraktør: Vec<AktørAktør>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3783,8 +3865,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("AktørAktør", "AktørAktør")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Aktørtype {
                 pub id: i32,
@@ -3794,6 +3881,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
             }
 
             #[cfg(feature = "reflection")]
@@ -3827,8 +3916,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Aktør", "Aktør")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Almdel {
                 pub id: i32,
@@ -4139,8 +4233,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dagsordenspunkt {
                 pub id: i32,
@@ -4183,6 +4282,18 @@ pub mod ft {
                 )]
                 pub offentlighedskode: Option<String>,
                 pub opdateringsdato: Option<chrono::NaiveDateTime>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dagsordenspunktdelti", default))]
+                pub dagsordenspunktdelti: Vec<Dagsordenspunkt>,
+                #[cfg_attr(feature = "serde", serde(rename = "DagsordenspunktDokument", default))]
+                pub dagsordenspunktdokument: Vec<DagsordenspunktDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "DagsordenspunktSag", default))]
+                pub dagsordenspunktsag: Vec<DagsordenspunktSag>,
+                #[cfg_attr(feature = "serde", serde(rename = "DeltfraDagsordenspunkt", default))]
+                pub deltfradagsordenspunkt: Option<Box<Dagsordenspunkt>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4279,8 +4390,20 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Dagsordenspunktdelti", "Dagsordenspunkt"),
+                        ("DagsordenspunktDokument", "DagsordenspunktDokument"),
+                        ("DagsordenspunktSag", "DagsordenspunktSag"),
+                        ("DeltfraDagsordenspunkt", "Dagsordenspunkt"),
+                        ("Møde", "Møde"),
+                        ("Sagstrin", "Sagstrin"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DagsordenspunktDokument {
                 pub id: i32,
@@ -4292,6 +4415,10 @@ pub mod ft {
                 )]
                 pub note: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dagsordenspunkt", default))]
+                pub dagsordenspunkt: Option<Box<Dagsordenspunkt>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4339,14 +4466,26 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Dagsordenspunkt", "Dagsordenspunkt"),
+                        ("Dokument", "Dokument"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DagsordenspunktSag {
                 pub id: i32,
                 pub dagsordenspunktid: i32,
                 pub sagid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dagsordenspunkt", default))]
+                pub dagsordenspunkt: Option<Box<Dagsordenspunkt>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4387,8 +4526,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dagsordenspunkt", "Dagsordenspunkt"), ("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Debat {
                 pub id: i32,
@@ -4699,8 +4843,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokument {
                 pub id: i32,
@@ -4753,6 +4902,30 @@ pub mod ft {
                 pub grundnotatstatus: Option<String>,
                 pub dagsordenudgavenummer: Option<i16>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "DagsordenspunktDokument", default))]
+                pub dagsordenspunktdokument: Vec<DagsordenspunktDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "SvarDokumenter", default))]
+                pub svardokumenter: Vec<Dokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "DokumentAktør", default))]
+                pub dokumentaktør: Vec<DokumentAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "EmneordDokument", default))]
+                pub emneorddokument: Vec<EmneordDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "Fil", default))]
+                pub fil: Vec<Fil>,
+                #[cfg_attr(feature = "serde", serde(rename = "Omtryk", default))]
+                pub omtryk: Vec<Omtryk>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagDokument", default))]
+                pub sagdokument: Vec<SagDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinDokument", default))]
+                pub sagstrindokument: Vec<SagstrinDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "SpørgsmålsDokument", default))]
+                pub spørgsmålsdokument: Option<Box<Dokument>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokumentkategori", default))]
+                pub dokumentkategori: Option<Box<Dokumentkategori>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokumentstatus", default))]
+                pub dokumentstatus: Option<Box<Dokumentstatus>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokumenttype", default))]
+                pub dokumenttype: Option<Box<Dokumenttype>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4891,8 +5064,26 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("DagsordenspunktDokument", "DagsordenspunktDokument"),
+                        ("SvarDokumenter", "Dokument"),
+                        ("DokumentAktør", "DokumentAktør"),
+                        ("EmneordDokument", "EmneordDokument"),
+                        ("Fil", "Fil"),
+                        ("Omtryk", "Omtryk"),
+                        ("SagDokument", "SagDokument"),
+                        ("SagstrinDokument", "SagstrinDokument"),
+                        ("SpørgsmålsDokument", "Dokument"),
+                        ("Dokumentkategori", "Dokumentkategori"),
+                        ("Dokumentstatus", "Dokumentstatus"),
+                        ("Dokumenttype", "Dokumenttype"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DokumentAktør {
                 pub id: i32,
@@ -4900,6 +5091,12 @@ pub mod ft {
                 pub aktørid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
+                #[cfg_attr(feature = "serde", serde(rename = "DokumentAktørRolle", default))]
+                pub dokumentaktørrolle: Option<Box<DokumentAktørRolle>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4947,8 +5144,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Aktør", "Aktør"),
+                        ("Dokument", "Dokument"),
+                        ("DokumentAktørRolle", "DokumentAktørRolle"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct DokumentAktørRolle {
                 pub id: i32,
@@ -4958,6 +5164,8 @@ pub mod ft {
                 )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "DokumentAktør", default))]
+                pub dokumentaktør: Vec<DokumentAktør>,
             }
 
             #[cfg(feature = "reflection")]
@@ -4991,8 +5199,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("DokumentAktør", "DokumentAktør")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumentkategori {
                 pub id: i32,
@@ -5002,6 +5215,8 @@ pub mod ft {
                 )]
                 pub kategori: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5035,8 +5250,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumenttype {
                 pub id: i32,
@@ -5046,6 +5266,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5079,8 +5301,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Dokumentstatus {
                 pub id: i32,
@@ -5090,6 +5317,8 @@ pub mod ft {
                 )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5123,8 +5352,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Emneord {
                 pub id: i32,
@@ -5135,6 +5369,12 @@ pub mod ft {
                 )]
                 pub emneord: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "EmneordDokument", default))]
+                pub emneorddokument: Vec<EmneordDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "EmneordSag", default))]
+                pub emneordsag: Vec<EmneordSag>,
+                #[cfg_attr(feature = "serde", serde(rename = "Emneordstype", default))]
+                pub emneordstype: Option<Box<Emneordstype>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5175,14 +5415,27 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("EmneordDokument", "EmneordDokument"),
+                        ("EmneordSag", "EmneordSag"),
+                        ("Emneordstype", "Emneordstype"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EmneordDokument {
                 pub id: i32,
                 pub emneordid: i32,
                 pub dokumentid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Emneord", default))]
+                pub emneord: Option<Box<Emneord>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5223,14 +5476,23 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument"), ("Emneord", "Emneord")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EmneordSag {
                 pub id: i32,
                 pub emneordid: i32,
                 pub sagid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Emneord", default))]
+                pub emneord: Option<Box<Emneord>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5271,8 +5533,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Emneord", "Emneord"), ("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Emneordstype {
                 pub id: i32,
@@ -5282,6 +5549,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Emneord", default))]
+                pub emneord: Option<Box<Emneord>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -5315,8 +5584,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Emneord", "Emneord")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EUsag {
                 pub id: i32,
@@ -5627,8 +5901,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Forslag {
                 pub id: i32,
@@ -5939,8 +6218,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Fil {
                 pub id: i32,
@@ -5967,6 +6251,8 @@ pub mod ft {
                     serde(deserialize_with = "crate::empty_string_as_none")
                 )]
                 pub format: Option<String>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6035,8 +6321,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct KolloneBeskrivelse {
                 pub id: i32,
@@ -6103,8 +6394,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct EntitetBeskrivelse {
                 pub id: i32,
@@ -6159,8 +6455,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Møde {
                 pub id: i32,
@@ -6199,6 +6500,18 @@ pub mod ft {
                 pub typeid: Option<i32>,
                 pub periodeid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Afstemning", default))]
+                pub afstemning: Vec<Afstemning>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dagsordenspunkt", default))]
+                pub dagsordenspunkt: Option<Box<Dagsordenspunkt>>,
+                #[cfg_attr(feature = "serde", serde(rename = "MødeAktør", default))]
+                pub mødeaktør: Vec<MødeAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Mødestatus", default))]
+                pub mødestatus: Option<Box<Mødestatus>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Mødetype", default))]
+                pub mødetype: Option<Box<Mødetype>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Periode", default))]
+                pub periode: Option<Box<Periode>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6295,14 +6608,30 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Afstemning", "Afstemning"),
+                        ("Dagsordenspunkt", "Dagsordenspunkt"),
+                        ("MødeAktør", "MødeAktør"),
+                        ("Mødestatus", "Mødestatus"),
+                        ("Mødetype", "Mødetype"),
+                        ("Periode", "Periode"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct MødeAktør {
                 pub id: i32,
                 pub mødeid: i32,
                 pub aktørid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6343,8 +6672,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Aktør", "Aktør"), ("Møde", "Møde")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Mødestatus {
                 pub id: i32,
@@ -6354,6 +6688,8 @@ pub mod ft {
                 )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6387,8 +6723,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Møde", "Møde")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Mødetype {
                 pub id: i32,
@@ -6398,6 +6739,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6431,8 +6774,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Møde", "Møde")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Omtryk {
                 pub id: i32,
@@ -6444,6 +6792,8 @@ pub mod ft {
                 )]
                 pub begrundelse: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6491,8 +6841,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Periode {
                 pub id: i32,
@@ -6514,6 +6869,12 @@ pub mod ft {
                 )]
                 pub titel: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Møde", default))]
+                pub møde: Option<Box<Møde>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6575,8 +6936,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Aktør", "Aktør"), ("Møde", "Møde"), ("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sag {
                 pub id: i32,
@@ -6672,6 +7038,32 @@ pub mod ft {
                 pub retsinformationsurl: Option<String>,
                 pub fremsatundersagid: Option<i32>,
                 pub deltundersagid: Option<i32>,
+                #[cfg_attr(feature = "serde", serde(rename = "DagsordenspunktSag", default))]
+                pub dagsordenspunktsag: Vec<DagsordenspunktSag>,
+                #[cfg_attr(feature = "serde", serde(rename = "EmneordSag", default))]
+                pub emneordsag: Vec<EmneordSag>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagerdelti", default))]
+                pub sagerdelti: Vec<Sag>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagerfremsatunder", default))]
+                pub sagerfremsatunder: Vec<Sag>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagAktør", default))]
+                pub sagaktør: Vec<SagAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagDokument", default))]
+                pub sagdokument: Vec<SagDokument>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Periode", default))]
+                pub periode: Option<Box<Periode>>,
+                #[cfg_attr(feature = "serde", serde(rename = "DeltfraSag", default))]
+                pub deltfrasag: Option<Box<Sag>>,
+                #[cfg_attr(feature = "serde", serde(rename = "FremsatunderSag", default))]
+                pub fremsatundersag: Option<Box<Sag>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagskategori", default))]
+                pub sagskategori: Option<Box<Sagskategori>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagsstatus", default))]
+                pub sagsstatus: Option<Box<Sagsstatus>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstype", default))]
+                pub sagstype: Option<Box<Sagstype>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6887,8 +7279,27 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("DagsordenspunktSag", "DagsordenspunktSag"),
+                        ("EmneordSag", "EmneordSag"),
+                        ("Sagerdelti", "Sag"),
+                        ("Sagerfremsatunder", "Sag"),
+                        ("SagAktør", "SagAktør"),
+                        ("SagDokument", "SagDokument"),
+                        ("Sagstrin", "Sagstrin"),
+                        ("Periode", "Periode"),
+                        ("DeltfraSag", "Sag"),
+                        ("FremsatunderSag", "Sag"),
+                        ("Sagskategori", "Sagskategori"),
+                        ("Sagsstatus", "Sagsstatus"),
+                        ("Sagstype", "Sagstype"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagAktør {
                 pub id: i32,
@@ -6896,6 +7307,12 @@ pub mod ft {
                 pub sagid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagAktørRolle", default))]
+                pub sagaktørrolle: Option<Box<SagAktørRolle>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6943,8 +7360,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Aktør", "Aktør"),
+                        ("Sag", "Sag"),
+                        ("SagAktørRolle", "SagAktørRolle"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagAktørRolle {
                 pub id: i32,
@@ -6954,6 +7380,8 @@ pub mod ft {
                 )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "SagAktør", default))]
+                pub sagaktør: Vec<SagAktør>,
             }
 
             #[cfg(feature = "reflection")]
@@ -6987,8 +7415,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("SagAktør", "SagAktør")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagDokument {
                 pub id: i32,
@@ -7002,6 +7435,12 @@ pub mod ft {
                 pub frigivelsesdato: Option<chrono::NaiveDateTime>,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagDokumentRolle", default))]
+                pub sagdokumentrolle: Option<Box<SagDokumentRolle>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7063,8 +7502,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Dokument", "Dokument"),
+                        ("Sag", "Sag"),
+                        ("SagDokumentRolle", "SagDokumentRolle"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagDokumentRolle {
                 pub id: i32,
@@ -7074,6 +7522,8 @@ pub mod ft {
                 )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "SagDokument", default))]
+                pub sagdokument: Vec<SagDokument>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7107,8 +7557,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("SagDokument", "SagDokument")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagskategori {
                 pub id: i32,
@@ -7118,6 +7573,8 @@ pub mod ft {
                 )]
                 pub kategori: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7151,8 +7608,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagsstatus {
                 pub id: i32,
@@ -7162,6 +7624,8 @@ pub mod ft {
                 )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7195,8 +7659,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrin {
                 pub id: i32,
@@ -7225,6 +7694,30 @@ pub mod ft {
                 pub folketingstidendesidenummer: Option<String>,
                 pub statusid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Afstemning", default))]
+                pub afstemning: Vec<Afstemning>,
+                #[cfg_attr(feature = "serde", serde(rename = "Dagsordenspunkt", default))]
+                pub dagsordenspunkt: Option<Box<Dagsordenspunkt>>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinAktør", default))]
+                pub sagstrinaktør: Vec<SagstrinAktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinDokument", default))]
+                pub sagstrindokument: Vec<SagstrinDokument>,
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(rename = "Sambehandlinger_andetsagstrinid", default)
+                )]
+                pub sambehandlinger_andetsagstrinid: Vec<Sambehandlinger>,
+                #[cfg_attr(
+                    feature = "serde",
+                    serde(rename = "Sambehandlinger_førstesagstrinid", default)
+                )]
+                pub sambehandlinger_førstesagstrinid: Vec<Sambehandlinger>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrinsstatus", default))]
+                pub sagstrinsstatus: Option<Box<Sagstrinsstatus>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrinstype", default))]
+                pub sagstrinstype: Option<Box<Sagstrinstype>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7307,8 +7800,23 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Afstemning", "Afstemning"),
+                        ("Dagsordenspunkt", "Dagsordenspunkt"),
+                        ("SagstrinAktør", "SagstrinAktør"),
+                        ("SagstrinDokument", "SagstrinDokument"),
+                        ("Sambehandlinger_andetsagstrinid", "Sambehandlinger"),
+                        ("Sambehandlinger_førstesagstrinid", "Sambehandlinger"),
+                        ("Sag", "Sag"),
+                        ("Sagstrinsstatus", "Sagstrinsstatus"),
+                        ("Sagstrinstype", "Sagstrinstype"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinAktør {
                 pub id: i32,
@@ -7316,6 +7824,12 @@ pub mod ft {
                 pub aktørid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
                 pub rolleid: i32,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinAktørRolle", default))]
+                pub sagstrinaktørrolle: Option<Box<SagstrinAktørRolle>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7363,8 +7877,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Aktør", "Aktør"),
+                        ("Sagstrin", "Sagstrin"),
+                        ("SagstrinAktørRolle", "SagstrinAktørRolle"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinAktørRolle {
                 pub id: i32,
@@ -7374,6 +7897,8 @@ pub mod ft {
                 )]
                 pub rolle: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "SagstrinAktør", default))]
+                pub sagstrinaktør: Vec<SagstrinAktør>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7407,14 +7932,23 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("SagstrinAktør", "SagstrinAktør")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sambehandlinger {
                 pub id: i32,
                 pub førstesagstrinid: i32,
                 pub andetsagstrinid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "AndetSagstrin", default))]
+                pub andetsagstrin: Option<Box<Sagstrin>>,
+                #[cfg_attr(feature = "serde", serde(rename = "FørsteSagstrin", default))]
+                pub førstesagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7455,14 +7989,26 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("AndetSagstrin", "Sagstrin"),
+                        ("FørsteSagstrin", "Sagstrin"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct SagstrinDokument {
                 pub id: i32,
                 pub sagstrinid: i32,
                 pub dokumentid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Dokument", default))]
+                pub dokument: Option<Box<Dokument>>,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7503,8 +8049,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Dokument", "Dokument"), ("Sagstrin", "Sagstrin")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrinsstatus {
                 pub id: i32,
@@ -7514,6 +8065,8 @@ pub mod ft {
                 )]
                 pub status: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7547,8 +8100,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Sagstrin", "Sagstrin")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstrinstype {
                 pub id: i32,
@@ -7558,6 +8116,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Sagstrin", default))]
+                pub sagstrin: Option<Box<Sagstrin>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7591,8 +8151,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Sagstrin", "Sagstrin")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Sagstype {
                 pub id: i32,
@@ -7602,6 +8167,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Sag", default))]
+                pub sag: Option<Box<Sag>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7635,8 +8202,13 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Sag", "Sag")]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Stemme {
                 pub id: i32,
@@ -7644,6 +8216,12 @@ pub mod ft {
                 pub afstemningid: i32,
                 pub aktørid: i32,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Afstemning", default))]
+                pub afstemning: Vec<Afstemning>,
+                #[cfg_attr(feature = "serde", serde(rename = "Aktør", default))]
+                pub aktør: Vec<Aktør>,
+                #[cfg_attr(feature = "serde", serde(rename = "Stemmetype", default))]
+                pub stemmetype: Option<Box<Stemmetype>>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7691,8 +8269,17 @@ pub mod ft {
                         ),
                     ]
                 }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[
+                        ("Afstemning", "Afstemning"),
+                        ("Aktør", "Aktør"),
+                        ("Stemmetype", "Stemmetype"),
+                    ]
+                }
             }
 
+            #[derive(Debug)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Stemmetype {
                 pub id: i32,
@@ -7702,6 +8289,8 @@ pub mod ft {
                 )]
                 pub r#type: Option<String>,
                 pub opdateringsdato: chrono::NaiveDateTime,
+                #[cfg_attr(feature = "serde", serde(rename = "Stemme", default))]
+                pub stemme: Vec<Stemme>,
             }
 
             #[cfg(feature = "reflection")]
@@ -7734,6 +8323,10 @@ pub mod ft {
                             },
                         ),
                     ]
+                }
+
+                fn relations() -> &'static [(&'static str, &'static str)] {
+                    &[("Stemme", "Stemme")]
                 }
             }
         }

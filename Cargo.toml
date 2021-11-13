@@ -1,15 +1,16 @@
 [package]
 name = "folketinget-api-models"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Mathias Pius <contact@pius.io>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = { version = "0.4.19", features = ["serde"]}
+chrono = { version = "0.4.19" }
 serde = { version = "1.0.126", features = ["derive"], optional = true }
 
 [features]
-default = ["serde", "reflection"]
+default = ["enable-serde", "reflection"]
+enable-serde = ["chrono/serde", "serde"]
 reflection = []
